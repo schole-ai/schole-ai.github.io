@@ -33,8 +33,23 @@ jQuery(document).ready(function() {
 
 		// Other initializations
 	
+		function validateEmail(email) {
+			var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+			return re.test(email);
+		}
+	
 		$('.subscribe form').submit(function(e) {
 			e.preventDefault();
+			var email = $('.subscribe-email').val().trim();
+			
+			if (!validateEmail(email)) {
+				$('.success-message').hide();
+				$('.error-message').hide();
+				$('.error-message').html('Please enter a valid email address.');
+				$('.error-message').fadeIn();
+				return;
+			}
+	
 			var postdata = $('.subscribe form').serialize();
 			$.ajax({
 				type: 'POST',
@@ -58,7 +73,7 @@ jQuery(document).ready(function() {
 			});
 		});
 	
-	});	
+	});
     
 });
 
