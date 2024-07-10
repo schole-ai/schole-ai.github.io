@@ -31,8 +31,6 @@ jQuery(document).ready(function() {
 	
 	jQuery(document).ready(function() {
 
-		// Other initializations
-	
 		function validateEmail(email) {
 			var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 			return re.test(email);
@@ -57,7 +55,8 @@ jQuery(document).ready(function() {
 				data: postdata,
 				dataType: 'json',
 				success: function(json) {
-					if(json.valid === 0) {
+					console.log('Response:', json); // Log the response
+					if (json.valid === 0) {
 						$('.success-message').hide();
 						$('.error-message').hide();
 						$('.error-message').html(json.message);
@@ -66,14 +65,21 @@ jQuery(document).ready(function() {
 						$('.error-message').hide();
 						$('.success-message').hide();
 						$('.subscribe form').hide();
-						$('.success-message').html(json.message);
+						$('.success-message').html(json.message + ' You have successfully subscribed.');
 						$('.success-message').fadeIn();
 					}
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					console.error('AJAX Error:', textStatus, errorThrown); // Log the error
+					$('.success-message').hide();
+					$('.error-message').hide();
+					$('.error-message').html('An error occurred. Please try again later.');
+					$('.error-message').fadeIn();
 				}
 			});
 		});
 	
-	});
+	});	
     
 });
 
